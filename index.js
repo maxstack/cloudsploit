@@ -3,6 +3,9 @@
 const { ArgumentParser } = require('argparse');
 const engine = require('./engine');
 
+// patch for azure sub id and name
+global.globalAzureSubId = process.env.AZURE_SUBSCRIPTION_ID
+global.globalAzureSubName = process.env.AZURE_SUBSCRIPTION_NAME
 
 console.log(`
    _____ _                 _  _____       _       _ _   
@@ -158,7 +161,10 @@ if (config.credentials.aws.credential_file && (!settings.cloud || (settings.clou
         ApplicationID: config.credentials.azure.application_id,
         KeyValue: config.credentials.azure.key_value,
         DirectoryID: config.credentials.azure.directory_id,
-        SubscriptionID: config.credentials.azure.subscription_id,
+        // patch for azure sub id and name
+        // SubscriptionID: config.credentials.azure.subscription_id,
+        SubscriptionID: process.env.AZURE_SUBSCRIPTION_ID,
+        SubscriptionNAME: process.env.AZURE_SUBSCRIPTION_NAME,
         location: 'East US'
     };
 } else if (config.credentials.google.credential_file && (!settings.cloud || (settings.cloud == 'google'))) {
